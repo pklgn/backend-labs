@@ -13,13 +13,11 @@ namespace ScrumBoard
             this.Title = title;
         }
 
-        private int _columnIndex = 0;
         public void AppendColumn(BoardColumn column)
         {
-            if (_columnIndex < MAX_COLUMN_AMOUNT)
+            if (_columnList.Count < MAX_COLUMN_AMOUNT)
             {
                 _columnList.Add(column);
-                _columnIndex++;
             }
 
             return;
@@ -27,8 +25,7 @@ namespace ScrumBoard
 
         public void MoveColumn(int oldIndex, int newIndex)
         {
-            if ((oldIndex == newIndex) || (0 > oldIndex) || (oldIndex >= _columnList.Count) || (0 > newIndex) ||
-                (newIndex >= _columnList.Count))
+            if ((oldIndex == newIndex) || !IsReachable(oldIndex) || !IsReachable(newIndex))
             {
                 return;
             }
@@ -44,10 +41,20 @@ namespace ScrumBoard
 
             _columnList.Insert(newIndex, tempColumn);
         }
-
+        
         public void RemoveColumn(int columnIndex)
         {
             _columnList.RemoveAt(columnIndex);
+        }
+
+        private bool IsReachable(int index)
+        {
+            if (index < 0 || index >= _columnList.Count)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
