@@ -4,7 +4,7 @@ namespace ScrumBoard
 {
     public class Board
     {
-        public readonly static int MAX_COLUMN_AMOUNT = 10;
+        public static readonly int MAX_COLUMN_AMOUNT = 10;
         public string Title { get; private set; }
         private List<BoardColumn> _columnList;
 
