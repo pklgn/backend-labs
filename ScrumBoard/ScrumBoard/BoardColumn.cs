@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ScrumBoard
 {
-    class BoardColumn
+    public class BoardColumn
     {
         private List<BoardCard> _cardList;
         public string Title
@@ -20,7 +20,7 @@ namespace ScrumBoard
 
         public BoardColumn(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
         public void AppendCard(BoardCard card)
@@ -28,7 +28,7 @@ namespace ScrumBoard
             _cardList.Add(card);
         }
 
-        public BoardCard? RetrieveCard(int cardIndex)
+        public BoardCard RetrieveCard(int cardIndex)
         {
             if (cardIndex > _cardList.Count || cardIndex < 0)
             {

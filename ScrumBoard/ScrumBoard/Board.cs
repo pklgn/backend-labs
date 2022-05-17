@@ -2,7 +2,7 @@
 
 namespace ScrumBoard
 {
-    class Board
+    public class Board
     {
         public readonly static int MAX_COLUMN_AMOUNT = 10;
         public string Title { get; private set; }
@@ -10,7 +10,7 @@ namespace ScrumBoard
 
         public Board(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
         public void AppendColumn(BoardColumn column)

@@ -1,31 +1,40 @@
 ﻿namespace ScrumBoard
 {
-    class BoardCard
+    public class BoardCard
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Priority { get; set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
 
-        public BoardCard(string name, string description = "", int priority = 1)
+        public enum PriorityType
         {
-            this.Name = name;
-            this.Description = description;
-            this.Priority = priority;
+            NotImportant = 0,
+            Minor,
+            Common,
+            Major,
+        }
+
+        public PriorityType Priority { get; private set; }
+
+        public BoardCard(string name, string description = "", PriorityType priority = PriorityType.Common)
+        {
+            Name = name;
+            Description = description;
+            Priority = priority;
         }
 
         public void ChangeDescription(string description)
         {
-            this.Description = description;
+            Description = description;
         }
 
         public void ChangeName(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
-        public void ChangePriority(int priority)
+        public void ChangePriority(PriorityType priority)
         {
-            this.Priority = priority;
+            Priority = priority;
         }
     }
 }
