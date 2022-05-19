@@ -16,7 +16,7 @@
 
         public PriorityType Priority { get; private set; }
 
-        public BoardCard(string name, string description = "", PriorityType priority = PriorityType.Common)
+        public BoardCard(string name, string description = "", PriorityType priority = PriorityType.NoPriority)
         {
             Name = name;
             Description = description;

@@ -13,14 +13,16 @@ namespace ScrumBoard
             Title = title;
         }
 
-        public void AppendColumn(BoardColumn column)
+        public bool AppendColumn(BoardColumn column)
         {
             if (_columnList.Count < MAX_COLUMN_AMOUNT)
             {
                 _columnList.Add(column);
+
+                return true;
             }
 
-            return;
+            return false;
         }
 
         public void MoveColumn(int oldIndex, int newIndex)
