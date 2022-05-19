@@ -5,18 +5,8 @@ namespace ScrumBoard
 {
     public class BoardColumn
     {
-        private List<BoardCard> _cardList;
-        public string Title
-        {
-            get
-            {
-                return Title;
-            }
-            private set
-            {
-                Title = value;
-            }
-        }
+        private List<BoardCard> _cardList = new List<BoardCard>();
+        public string Title { get; private set; }
 
         public BoardColumn(string title)
         {
@@ -26,26 +16,34 @@ namespace ScrumBoard
         public void AppendCard(BoardCard card)
         {
             _cardList.Add(card);
+        }   
+
+        public bool RemoveCard(string cardName)
+        {
+            BoardCard boardCard = _cardList.Find(card => card.Name == cardName);
+            if (boardCard != null)
+            {
+                _cardList.Remove(boardCard);
+
+                return true;
+            }
+            
+            return false;
         }
 
-        public BoardCard RetrieveCard(int cardIndex)
+        public bool RenameCard(string replacementName)
         {
-            if (cardIndex > _cardList.Count || cardIndex < 0)
-            {
-                return null;
-            }
-
-            return _cardList.ElementAt(cardIndex);
+            return true;
         }
 
-        public void RemoveCard(int cardIndex)
+        public void RenameColumn(string title)
         {
-            if (cardIndex > _cardList.Count || cardIndex < 0)
-            {
-                return;
-            }
+            Title = title;
+        }
 
-            _cardList.RemoveAt(cardIndex);
+        public List<BoardCard> GetBoardCards()
+        {
+            return _cardList;
         }
     }
 }

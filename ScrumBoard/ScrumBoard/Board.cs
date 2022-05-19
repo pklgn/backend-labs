@@ -6,7 +6,7 @@ namespace ScrumBoard
     {
         public static readonly int MAX_COLUMN_AMOUNT = 10;
         public string Title { get; private set; }
-        private List<BoardColumn> _columnList;
+        private List<BoardColumn> _columnList = new List<BoardColumn>();
 
         public Board(string title)
         {
@@ -55,6 +55,26 @@ namespace ScrumBoard
             }
 
             return true;
+        }
+
+        public bool RenameColumn(string currName, string newName)
+        {
+            foreach (BoardColumn column in _columnList)
+            {
+                if (column.Title == currName)
+                {
+                    column.RenameColumn(newName);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public List<BoardColumn> GetBoardColumns()
+        {
+            return _columnList;
         }
     }
 }
