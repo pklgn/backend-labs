@@ -84,6 +84,7 @@ namespace ScrumBoardConsole
 		{
             _activeBoardIndex = _boards.Count();
             _boards.Add(new Board(ReadConsoleParam("Please, specify the name of your board: ")));
+            Console.WriteLine("Board was successfully created");
 
             return;
 		}
@@ -95,7 +96,13 @@ namespace ScrumBoardConsole
                 Console.WriteLine("There is no boards");
                 CreateBoard();
             }
-            _boards[_activeBoardIndex].AppendColumn(new BoardColumn(ReadConsoleParam("Enter column name: ")));
+            if (_boards[_activeBoardIndex].AppendColumn(new BoardColumn(ReadConsoleParam("Enter column name: "))))
+            {
+                Console.WriteLine("Column was added");
+
+                return;
+            }
+            Console.WriteLine("Cannot create new column due to column limit");
 
             return;
 		}
@@ -115,7 +122,7 @@ namespace ScrumBoardConsole
 
 		private static void RenameColumn()
 		{
-			string oldColumnName = ReadConsoleParam("Select column by name: ");
+			string oldColumnName = ReadConsoleParam("Select column by old name: ");
 			string newColumnName = ReadConsoleParam("Enter new column name: ");
 			if (!_boards[_activeBoardIndex].RenameColumn(oldColumnName, newColumnName))
 			{
@@ -131,34 +138,62 @@ namespace ScrumBoardConsole
 
 		private static void RemoveColumn()
         {
-            string name = ReadConsoleParam("Enter column name: ");
+            string name = ReadConsoleParam("Enter column name that you'd like to remove: ");
             BoardColumn boardColumn = _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == name);
 
-            _boards[_activeBoardIndex].GetBoardColumns().Remove(boardColumn);
+            if (!_boards[_activeBoardIndex].GetBoardColumns().Remove(boardColumn))
+            {
+                Console.WriteLine("Column was uccessfuly removed");
+
+                return;
+            }
+            Console.WriteLine("Cannot remove ", name, " from current board");
 
             return;
         }
 
         private static void AddCard()
         {
-            string columnName = ReadConsoleParam("Enter column name: ");
-            string cardName = ReadConsoleParam("Enter card name: ");
-            string cardDescription = ReadConsoleParam("Enter card description: ");
-            string cardPriority = ReadConsoleParam("Specify card priority (not important/minor/common/major):");
+            string columnName = ReadConsoleParam("Enter column name where you'd like to place your card: ");
+            string cardName = ReadConsoleParam("Now enter card name: ");
+            string cardDescription = ReadConsoleParam("Also enter card description: ");
+            string cardPriority = ReadConsoleParam("And specify card priority (not important/minor/common/major):");
             BoardCard.PriorityType priority = BoardCard.GetPriorityTypeFromString(cardPriority);
 
-            _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == columnName).AppendCard(
-                new BoardCard(cardName, cardDescription, priority));
+            BoardColumn boardColumn = _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == columnName);
+            if (boardColumn.Title == "")
+            {
+                Console.WriteLine("Cannot find specified board column");
+
+                return;
+            }
+
+            boardColumn.AppendCard(new BoardCard(cardName, cardDescription, priority));
+            Console.WriteLine("Card was successfully added");
 
             return;
         }
 
         private static void RemoveCard()
         {
-            string columnName = ReadConsoleParam("Enter column name: ");
-            string cardName = ReadConsoleParam("Enter card name: ");
-            BoardColumn currBoardColumn = _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == columnName);
-            currBoardColumn.RemoveCard(cardName);
+            string columnName = ReadConsoleParam("Enter column name where the card was placed: ");
+            string cardName = ReadConsoleParam("Now enter card name: ");
+
+            BoardColumn boardColumn = _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == columnName);
+            if (boardColumn.Title == "")
+            {
+                Console.WriteLine("Cannot find specified board column");
+
+                return;
+            }
+
+            if (!boardColumn.RemoveCard(cardName))
+            {
+                Console.WriteLine("Cannot find specified card in column");
+
+                return;
+            }
+            Console.WriteLine("Successfully removed");
 
             return;
         }
@@ -171,7 +206,13 @@ namespace ScrumBoardConsole
 
                 return;
             }
-            foreach (BoardColumn column in _boards[_activeBoardIndex].GetBoardColumns())
+            Console.WriteLine(_boards[_activeBoardIndex].Title);
+            List<BoardColumn> columns = _boards[_activeBoardIndex].GetBoardColumns();
+            if (columns.Count() == 0)
+            {
+                Console.WriteLine("There is no columns in ", _boards[_activeBoardIndex].Title, " board");
+            }
+            foreach (BoardColumn column in columns)
             {
                 PrintColumn(column);
             }
@@ -179,7 +220,7 @@ namespace ScrumBoardConsole
 
         private static void PrintColumn(BoardColumn column)
         {
-            Console.WriteLine("==================", column.Title, "==================");
+            Console.WriteLine($"================== {column.Title} ==================");
             foreach (BoardCard card in column.GetBoardCards())
             {
                 PrintCard(card);
