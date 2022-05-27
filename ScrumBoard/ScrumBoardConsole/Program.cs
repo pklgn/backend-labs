@@ -24,6 +24,30 @@ namespace ScrumBoardConsole
 			Exit,
 		}
 
+        private static Dictionary<ProgramCommand, string> _commandName = new Dictionary<ProgramCommand, string>
+        {
+            { ProgramCommand.CreateBoard, "create_board" },
+            { ProgramCommand.CreateColumn, "create_column" },
+            { ProgramCommand.RenameColumn, "rename_column" },
+            { ProgramCommand.AddCard, "add_card" },
+            { ProgramCommand.RemoveCard, "remove_card" },
+            { ProgramCommand.PrintBoard, "print_board" },
+            { ProgramCommand.Help, "help" },
+            { ProgramCommand.Exit, "exit" },
+        };
+
+        private static Dictionary<ProgramCommand, string> _commandDescription = new Dictionary<ProgramCommand, string>
+        {
+            { ProgramCommand.CreateBoard, "Create a new board and select it as current" },
+            { ProgramCommand.CreateColumn, "Create a new column in the current board" },
+            { ProgramCommand.RenameColumn, "Rename specified column. If specified column was not found do nothing" },
+            { ProgramCommand.AddCard, "Add new card in specieifed column" },
+            { ProgramCommand.RemoveCard, "Remove specified card. If specified column or card was not found do nothing" },
+            { ProgramCommand.PrintBoard, "Print current board" },
+            { ProgramCommand.Exit, "Type to exit program" },
+        };
+
+
 
 		static void Main(string[] args)
 		{
@@ -40,39 +64,39 @@ namespace ScrumBoardConsole
 		{
 			string commandString = Console.ReadLine().Trim();
 
-			if (commandString == "create_board")
+			if (commandString == _commandName[ProgramCommand.CreateBoard])
 			{
 				return ProgramCommand.CreateBoard;
 			}
-			else if (commandString == "create_column")
+			else if (commandString.ToLower() == "create_column")
 			{
 				return ProgramCommand.CreateColumn;
 			}
-			else if (commandString == "rename_column")
+			else if (commandString.ToLower() == "rename_column")
 			{
 				return ProgramCommand.RenameColumn;
 			}
-			else if (commandString == "remove_column")
+			else if (commandString.ToLower() == "remove_column")
 			{
 				return ProgramCommand.RemoveColumn;
 			}
-			else if (commandString == "add_card")
+			else if (commandString.ToLower() == "add_card")
 			{
 				return ProgramCommand.AddCard;
 			}
-			else if (commandString == "remove_card")
+			else if (commandString.ToLower() == "remove_card")
 			{
 				return ProgramCommand.RemoveCard;
 			}
-			else if (commandString == "print_board")
+			else if (commandString.ToLower() == "print_board")
 			{
 				return ProgramCommand.PrintBoard;
 			}
-			else if (commandString == "help")
+			else if (commandString.ToLower() == "help")
 			{
 				return ProgramCommand.Help;
 			}
-			else if (commandString == "exit")
+			else if (commandString.ToLower() == _commandName[ProgramCommand.Exit])
 			{
 				return ProgramCommand.Exit;
 			}
@@ -240,7 +264,16 @@ namespace ScrumBoardConsole
 
         private static void PrintHelp()
         {
-            Console.WriteLine("help");
+            Console.WriteLine(@"
+                
+            ");
+
+            return;
+        }
+
+        private static void PrintHint()
+        {
+            Console.WriteLine("Use help to see all available commands");
 
             return;
         }
@@ -276,6 +309,7 @@ namespace ScrumBoardConsole
                     RemoveColumn();
                     break;
                 case ProgramCommand.Skip:
+                    PrintHint();
                     break;
             }
 
