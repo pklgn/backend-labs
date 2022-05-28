@@ -21,6 +21,7 @@ namespace ScrumBoardConsole
 			RemoveCard,
 			PrintBoard,
             SwitchBoard,
+            MoveColumn,
 			Help,
 			Skip,
 			Exit,
@@ -36,6 +37,7 @@ namespace ScrumBoardConsole
             { ProgramCommand.RemoveCard, "remove_card" },
             { ProgramCommand.PrintBoard, "print_board" },
             { ProgramCommand.SwitchBoard, "switch_board" },
+            { ProgramCommand.MoveColumn, "move_column" },
             { ProgramCommand.Help, "help" },
             { ProgramCommand.Exit, "exit" },
         };
@@ -49,6 +51,7 @@ namespace ScrumBoardConsole
             { ProgramCommand.RemoveCard, "Remove specified card. If specified column or card was not found do nothing" },
             { ProgramCommand.PrintBoard, "Print the current board" },
             { ProgramCommand.SwitchBoard, "Switch the current board" },
+            { ProgramCommand.MoveColumn, "Change column position" },
             { ProgramCommand.Exit, "Type to exit program" },
         };
 
@@ -192,16 +195,15 @@ namespace ScrumBoardConsole
                 return;
             }
 
-            string name = ReadConsoleParam("Enter column name that you'd like to remove: ");
-            BoardColumn boardColumn = _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == name);
+            string columnName = ReadConsoleParam("Enter column name that you'd like to remove: ");
 
-            if (!_boards[_activeBoardIndex].GetBoardColumns().Remove(boardColumn))
+            if (!_boards[_activeBoardIndex].RemoveColumn(columnName))
             {
                 Console.WriteLine("Column was uccessfuly removed");
 
                 return;
             }
-            Console.WriteLine($"Cannot remove ${name} from current board");
+            Console.WriteLine($"Cannot remove ${columnName} from current board");
 
             return;
         }
@@ -217,7 +219,7 @@ namespace ScrumBoardConsole
 
             string columnName = ReadConsoleParam("Enter column name where you'd like to place your card: ");
 
-            BoardColumn boardColumn = _boards[_activeBoardIndex].GetBoardColumns().Find(column => column.Title == columnName);
+            BoardColumn boardColumn = _boards[_activeBoardIndex].FindBoardColumn(columnName);
             if (boardColumn == null)
             {
                 Console.WriteLine("Cannot find specified board column   ");
@@ -365,6 +367,22 @@ namespace ScrumBoardConsole
             Console.WriteLine($"Current board was successfully switched to {_boards[_activeBoardIndex].Title}");
 
             return;
+        }
+
+        private static void MoveColumn()
+        {
+            if (_boards[_activeBoardIndex].GetBoardColumns().Count == 0)
+            {
+                Console.WriteLine("There is no columns");
+
+                return;
+            }
+
+            Console.WriteLine($"You can choose indexes from 0 to {_boards[_activeBoardIndex].GetBoardColumns().Count}");
+
+            string columnName = ReadConsoleParam("Enter column name to move");
+
+
         }
 
         private static void ProcessCommand(ProgramCommand command)
