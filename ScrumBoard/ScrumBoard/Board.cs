@@ -61,17 +61,22 @@ namespace ScrumBoard
 
         public bool RenameColumn(string currName, string newName)
         {
-            foreach (BoardColumn column in _columnList)
-            {
-                if (column.Title == currName)
-                {
-                    column.RenameColumn(newName);
-                }
+            BoardColumn selectedColumn = _columnList.Find(column => column.Title == currName);
 
-                return true;
+            if  (selectedColumn == null)
+            {
+                return false;
             }
 
-            return false;
+            int newColumnNameIndex = _columnList.FindIndex(column => column.Title == newName);
+            if (newColumnNameIndex != -1)
+            {
+                return false;
+            }
+
+            selectedColumn.RenameColumn(newName);
+
+            return true;
         }
 
         public List<BoardColumn> GetBoardColumns()
