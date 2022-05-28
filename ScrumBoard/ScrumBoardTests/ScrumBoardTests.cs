@@ -86,5 +86,159 @@ namespace ScrumBoardTests
             Assert.Equal(Board.MAX_COLUMN_AMOUNT, board.GetBoardColumns().Count);
             Assert.False(isSuccessful);
         }
+
+        [Fact]
+        public void AppendCardToColumn_ColumnDoesntExist()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardCard card = new BoardCard(_testCardTitle, _testCardDescription, _testCardPriority);
+
+            //Act
+            bool isSuccessful = board.AppendCardToColumn(card);
+
+            //Assert
+            Assert.False(isSuccessful);
+        }
+
+        [Fact]
+        public void AppendCardToColumn_ColumnDoesExistButNotSpecified()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn column = new BoardColumn(_testColumnTitle);
+            BoardCard card = new BoardCard(_testCardTitle, _testCardDescription, _testCardPriority);
+            board.AppendColumn(column);
+
+            //Act
+            bool isSuccessful = board.AppendCardToColumn(card);
+
+            //Assert
+            Assert.True(isSuccessful);
+            Assert.Single(board.GetBoardColumns()[0].GetBoardCards());
+            Assert.Equal(_testCardTitle, board.GetBoardColumns()[0].GetBoardCards()[0].Name);
+        }
+
+        [Fact]
+        public void AppendCardToColumn_ColumnDoesExistAndSpecified()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn column = new BoardColumn(_testColumnTitle);
+            BoardCard card = new BoardCard(_testCardTitle, _testCardDescription, _testCardPriority);
+            board.AppendColumn(column);
+
+            //Act
+            bool isSuccessful = board.AppendCardToColumn(card, _testColumnTitle);
+
+            //Assert
+            Assert.True(isSuccessful);
+            Assert.Single(board.GetBoardColumns()[0].GetBoardCards());
+            Assert.Equal(_testCardTitle, board.GetBoardColumns()[0].GetBoardCards()[0].Name);
+        }
+
+        [Fact]
+        public void CreateColumn_ContructorHasCardName()
+        {
+            //Arrange
+            BoardCard card = new BoardCard(_testCardTitle);
+
+            //Act
+
+            //Assert
+            Assert.Equal(_testCardTitle, card.Name);
+            Assert.Equal("", card.Description);
+            Assert.Equal(BoardCard.PriorityType.NoPriority, card.Priority);
+        }
+
+        [Fact]
+        public void CreateColumn_ContructorHasCardNameAndDescription()
+        {
+            //Arrange
+            BoardCard card = new BoardCard(_testCardTitle, _testCardDescription);
+
+            //Act
+
+            //Assert
+            Assert.Equal(_testCardTitle, card.Name);
+            Assert.Equal(_testCardDescription, card.Description);
+            Assert.Equal(BoardCard.PriorityType.NoPriority, card.Priority);
+        }
+
+        [Fact]
+        public void CreateColumn_ContructorHasCardNameAndDescriptionWithPriority()
+        {
+            //Arrange
+            BoardCard card = new BoardCard(_testCardTitle, _testCardDescription, _testCardPriority);
+
+            //Act
+
+            //Assert
+            Assert.Equal(_testCardTitle, card.Name);
+            Assert.Equal(_testCardDescription, card.Description);
+            Assert.Equal(_testCardPriority, card.Priority);
+        }
+
+        [Fact]
+        public void RenameColumn_ColumnExists()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn column = new BoardColumn(_testColumnTitle);
+            board.AppendColumn(column);
+            string newColumnName = _testColumnTitle + "1";
+
+            //Act
+            board.RenameColumn(_testColumnTitle, newColumnName);
+
+            //Assert
+            Assert.Equal(newColumnName, board.GetBoardColumns()[0].Title);
+        }
+
+        [Fact]
+        public void RemoveColumn_ColumnExists()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn column = new BoardColumn(_testColumnTitle);
+            board.AppendColumn(column);
+
+            //Act
+            board.RemoveColumn(_testColumnTitle);
+
+            //Assert
+            Assert.Empty(board.GetBoardColumns());
+        }
+
+        [Fact]
+        public void RenameColumn_ColumnDoesntExists()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn column = new BoardColumn(_testColumnTitle);
+            board.AppendColumn(column);
+            string newColumnName = _testColumnTitle + "1";
+
+            //Act
+            bool isSuccessful = board.RenameColumn(newColumnName, newColumnName);
+
+            //Assert
+            Assert.False(isSuccessful);
+        }
+
+        [Fact]
+        public void RemoveColumn_ColumnDoesntExists()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn column = new BoardColumn(_testColumnTitle);
+            board.AppendColumn(column);
+
+            //Act
+            bool isSuccessful = board.RemoveColumn(_testColumnTitle + "1");
+
+            //Assert
+            Assert.False(isSuccessful);
+        }
     }
 }
