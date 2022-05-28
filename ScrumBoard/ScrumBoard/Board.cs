@@ -44,9 +44,18 @@ namespace ScrumBoard
             _columnList.Insert(newIndex, tempColumn);
         }
         
-        public void RemoveColumn(int columnIndex)
+        public bool RemoveColumn(string columnTitle)
         {
+            int columnIndex = _columnList.FindIndex(column => column.Title == columnTitle);
+
+            if (columnIndex == -1)
+            {
+                return false;
+            }
+
             _columnList.RemoveAt(columnIndex);
+
+            return true;
         }
 
         private bool IsReachable(int index)
@@ -82,6 +91,36 @@ namespace ScrumBoard
         public List<BoardColumn> GetBoardColumns()
         {
             return _columnList;
+        }
+
+        public bool AppendCardToColumn(BoardCard card, string columnTitle = "")
+        {
+            if (columnTitle == "")
+            {
+                if (_columnList.Count > 0)
+                {
+                    _columnList[0].AppendCard(card);
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            int columnIndex = _columnList.FindIndex(column => column.Title == columnTitle);
+            if (columnIndex == -1)
+            {
+                return false;
+            }
+
+            _columnList[columnIndex].AppendCard(card);
+
+            return true;
+        }
+
+        public BoardColumn? FindBoardColumn(string title)
+        {
+            return _columnList.Find(column => column.Title == title);
         }
     }
 }
