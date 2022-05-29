@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32228.343
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrumBoard", "ScrumBoard\ScrumBoard.csproj", "{B03A8580-442B-4D5D-BF94-4DCC4CCD289B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumBoardConsole", "ScrumBoardConsole\ScrumBoardConsole.csproj", "{DC0B9841-48F9-4DB9-A2C0-1CE9B0696035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumBoardTests", "ScrumBoardTests\ScrumBoardTests.csproj", "{2930FB93-B187-4E23-BB36-53974D59BD83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrumBoardTests", "ScrumBoardTests\ScrumBoardTests.csproj", "{2930FB93-B187-4E23-BB36-53974D59BD83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumBoardWeb", "ScrumBoardWeb\ScrumBoardWeb.csproj", "{E569DF54-E0B2-4B49-93BC-47D08354E1C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{2930FB93-B187-4E23-BB36-53974D59BD83}.Release|x64.Build.0 = Release|Any CPU
 		{2930FB93-B187-4E23-BB36-53974D59BD83}.Release|x86.ActiveCfg = Release|Any CPU
 		{2930FB93-B187-4E23-BB36-53974D59BD83}.Release|x86.Build.0 = Release|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Debug|x64.Build.0 = Debug|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Release|x64.ActiveCfg = Release|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Release|x64.Build.0 = Release|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{E569DF54-E0B2-4B49-93BC-47D08354E1C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
