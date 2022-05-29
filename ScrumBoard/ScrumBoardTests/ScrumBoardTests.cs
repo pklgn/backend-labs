@@ -240,5 +240,39 @@ namespace ScrumBoardTests
             //Assert
             Assert.False(isSuccessful);
         }
+
+        [Fact]
+        public void MoveColumn_ColumnExist()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn firstColumn = new BoardColumn(_testColumnTitle + "1");
+            BoardColumn secondColumn = new BoardColumn(_testColumnTitle + "2");
+            board.AppendColumn(firstColumn);
+            board.AppendColumn(secondColumn);
+
+            //Act
+            bool isSuccessful = board.MoveColumn(0, 1);
+
+            //Arrange
+            Assert.True(isSuccessful);
+            Assert.Equal(_testColumnTitle + "2", board.GetBoardColumns()[0].Title);
+        }
+
+        [Fact]
+        public void MoveColumn_ColumnOutOfRange()
+        {
+            //Arrange
+            Board board = new Board(_testBoardTitle);
+            BoardColumn firstColumn = new BoardColumn(_testColumnTitle + "1");
+            board.AppendColumn(firstColumn);
+
+            //Act
+            bool isSuccessful = board.MoveColumn(0, 2);
+
+            //Arrange
+            Assert.False(isSuccessful);
+            Assert.Single(board.GetBoardColumns());
+        }
     }
 }
