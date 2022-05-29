@@ -25,23 +25,19 @@ namespace ScrumBoard
             return false;
         }
 
-        public void MoveColumn(int oldIndex, int newIndex)
+        public bool MoveColumn(int oldIndex, int newIndex)
         {
             if ((oldIndex == newIndex) || !IsReachable(oldIndex) || !IsReachable(newIndex))
             {
-                return;
+                return false;
             }
 
             BoardColumn tempColumn = _columnList[oldIndex];
 
             _columnList.RemoveAt(oldIndex);
-
-            if (newIndex > oldIndex)
-            {
-                newIndex--;
-            }
-
             _columnList.Insert(newIndex, tempColumn);
+
+            return true;
         }
         
         public bool RemoveColumn(string columnTitle)
@@ -121,6 +117,17 @@ namespace ScrumBoard
         public BoardColumn? FindBoardColumn(string title)
         {
             return _columnList.Find(column => column.Title == title);
+        }
+
+        public BoardCard? FindBoardCard(string columnTitle, string cardTitle)
+        {
+            BoardColumn? column = FindBoardColumn(columnTitle);
+            if (column == null)
+            {
+                return null;
+            }
+
+            return column.GetBoardCards().Find(card => card.Name == cardTitle);
         }
     }
 }
