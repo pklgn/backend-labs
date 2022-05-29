@@ -104,6 +104,10 @@ namespace ScrumBoardConsole
             {
                 return ProgramCommand.SwitchBoard;
             }
+            else if (commandString == _commandName[ProgramCommand.MoveColumn])
+            {
+                return ProgramCommand.MoveColumn;
+            }
             else if (commandString == _commandName[ProgramCommand.Help])
 			{
 				return ProgramCommand.Help;
@@ -371,18 +375,39 @@ namespace ScrumBoardConsole
 
         private static void MoveColumn()
         {
-            if (_boards[_activeBoardIndex].GetBoardColumns().Count == 0)
+            if (_boards.Count == 0 || _boards[_activeBoardIndex].GetBoardColumns().Count == 0)
             {
                 Console.WriteLine("There is no columns");
 
                 return;
             }
 
-            Console.WriteLine($"You can choose indexes from 0 to {_boards[_activeBoardIndex].GetBoardColumns().Count}");
+            Console.WriteLine($"You can choose indexes from 1 to {_boards[_activeBoardIndex].GetBoardColumns().Count}");
 
             string columnName = ReadConsoleParam("Enter column name to move");
+            int columnIndex = _boards[_activeBoardIndex].GetBoardColumns().FindIndex(column => column.Title == columnName);
 
+            if (columnIndex == -1)
+            {
+                Console.WriteLine("There is no such column");
 
+                return;
+            }
+
+            int columnPositionToMove = Convert.ToInt32(ReadConsoleParam("Enter new column position"));
+
+            if (columnPositionToMove < 1 || columnPositionToMove > _boards[_activeBoardIndex].GetBoardColumns().Count)
+            {
+                Console.WriteLine("Position out of range");
+
+                return;
+            }
+
+            _boards[_activeBoardIndex].MoveColumn(columnIndex, columnPositionToMove - 1);
+
+            Console.WriteLine("Successfully moved");
+
+            return;
         }
 
         private static void ProcessCommand(ProgramCommand command)
@@ -417,6 +442,9 @@ namespace ScrumBoardConsole
                     break;
                 case ProgramCommand.SwitchBoard:
                     SwitchBoard();
+                    break;
+                case ProgramCommand.MoveColumn:
+                    MoveColumn();
                     break;
                 case ProgramCommand.Skip:
                     PrintHint();
