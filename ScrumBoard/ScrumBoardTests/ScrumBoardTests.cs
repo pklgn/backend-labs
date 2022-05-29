@@ -254,7 +254,7 @@ namespace ScrumBoardTests
             //Act
             bool isSuccessful = board.MoveColumn(0, 1);
 
-            //Arrange
+            //Assert
             Assert.True(isSuccessful);
             Assert.Equal(_testColumnTitle + "2", board.GetBoardColumns()[0].Title);
         }
@@ -270,7 +270,7 @@ namespace ScrumBoardTests
             //Act
             bool isSuccessful = board.MoveColumn(0, 2);
 
-            //Arrange
+            //Assert
             Assert.False(isSuccessful);
             Assert.Single(board.GetBoardColumns());
         }
