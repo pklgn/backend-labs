@@ -2,45 +2,50 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Mvc;
+using ScrumBoardWeb.DTO;
+using ScrumBoardWeb.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ScrumBoardWeb.Controllers
+namespace ScrumBoardWeb.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class BoardColumnsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BoardColumnsController : ControllerBase
+    private readonly IBoardService _boardService;
+
+    public BoardColumnsController(IBoardService boardService) => _boardService = boardService;
+
+    // POST api/boards/{boardIndex}/create/column
+    [HttpPost("{boardIndex}/create/column")]
+    public IActionResult CreateBoardColumn(int boardIndex, [FromBody] CreateBoardColumnDTO columnDTO)
     {
-        // GET: api/<BoardColumnsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        try
         {
-            return new string[] { "value1", "value2" };
+            _boardService.CreateBoardColumn(boardIndex, columnDTO.Name);
+        }
+        catch
+        {
+            return BadRequest("Couldn't create board column with such parameters");
         }
 
-        // GET api/<BoardColumnsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        return Ok("Board column was successfully created");
+    }
+
+    // DELETE api/boards/{boardIndex}/column/{columnIndex}/remove
+    [HttpDelete("{boardIndex}/column/{columnIndex}/remove")]
+    public IActionResult RemoveBoardColumn(int boardIndex, int columnIndex)
+    {
+        try
         {
-            return "value";
+            _boardService.RemoveBoardColumn(boardIndex, columnIndex);
+        }
+        catch
+        {
+            return BadRequest("Couldn't remove board column");
         }
 
-        // POST api/<BoardColumnsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<BoardColumnsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<BoardColumnsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        return Ok("Board column was successfully removed");
     }
 }

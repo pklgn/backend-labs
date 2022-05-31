@@ -2,45 +2,78 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Mvc;
+using ScrumBoardAPI.DTO;
+using ScrumBoardWeb.DTO;
+using ScrumBoardWeb.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ScrumBoardWeb.Controllers
+namespace ScrumBoardWeb.Controllers;
+
+[Route("api/boards")]
+[ApiController]
+public class BoardsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BoardsController : ControllerBase
+    private readonly IBoardService _boardService;
+
+    public BoardsController(IBoardService boardService) => _boardService = boardService;
+
+
+    // GET: api/boards
+    [HttpGet]
+    public IActionResult GetBoards()
     {
-        // GET: api/<BoardsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        List<BoardDTO> boards = _boardService.GetBoards();
+
+        return Ok(boards);
+    }
+
+    // GET api/boards/boardIndex
+    [HttpGet("{boardIndex}")]
+    public IActionResult GetBoard(int index)
+    {
+        BoardDTO board;
+        try
         {
-            return new string[] { "value1", "value2" };
+            board = _boardService.GetBoard(index);
+        }
+        catch
+        {
+            return BadRequest("Request is incorrect. Check your index value");
         }
 
-        // GET api/<BoardsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        return Ok(board);
+    }
+
+    // POST api/boards/create
+    [HttpPost("create")]
+    public IActionResult CreateBoard([FromBody] CreateBoardDTO createBoardDTO)
+    {
+        try
         {
-            return "value";
+            _boardService.CreateBoard(createBoardDTO.Title);
+        }
+        catch
+        {
+            return BadRequest("Couldn't create board with such parameters");
         }
 
-        // POST api/<BoardsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        return Ok("Board was successfully created");
+    }
+
+    // DELETE api/boards/{boardIndex}/remove
+    [HttpDelete("{boardIndex}/remove")]
+    public IActionResult RemoveBoard(int boardIndex)
+    {
+        try
         {
+            _boardService.RemoveBoard(boardIndex);
+        }
+        catch
+        {
+            return BadRequest("Couldn't remove board");
         }
 
-        // PUT api/<BoardsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<BoardsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        return Ok("Board was successfully removed");
     }
 }
