@@ -13,5 +13,4 @@ public class BoardColumnDTO
         Title = column.Title;
         BoardCards = column.GetBoardCards().Select(card => new BoardCardDTO(card.Name, card.Description, BoardCard.GetPriorityTypeToString(card.Priority)));
     }
-
 }
