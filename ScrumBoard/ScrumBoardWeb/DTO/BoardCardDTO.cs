@@ -1,4 +1,5 @@
 ﻿namespace ScrumBoardAPI.DTO;
+using ScrumBoard;
 
 public class BoardCardDTO
 {

@@ -8,9 +8,9 @@ public class BoardColumnDTO
 
     public IEnumerable<BoardCardDTO> BoardCards { get; set; }
 
-    public BoardColumnDTO(BoardColumn column)
+    public BoardColumnDTO(string title, List<BoardCardDTO> cards)
     {
-        Title = column.Title;
-        BoardCards = column.GetBoardCards().Select(card => new BoardCardDTO(card.Name, card.Description, BoardCard.GetPriorityTypeToString(card.Priority)));
+        Title = title;
+        BoardCards = cards;
     }
 }
