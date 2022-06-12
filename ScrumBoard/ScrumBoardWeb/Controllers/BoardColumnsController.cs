@@ -17,29 +17,30 @@ public class BoardColumnsController : ControllerBase
 
     public BoardColumnsController(IBoardService boardService) => _boardService = boardService;
 
-    // POST api/boards/{boardIndex}/create/column
-    [HttpPost("{boardIndex}/create/column")]
-    public IActionResult CreateBoardColumn(int boardIndex, [FromBody] CreateBoardColumnDTO columnDTO)
+    // POST api/boards/{boardId}/create/column
+    [HttpPost("{boardId}/create/column")]
+    public IActionResult CreateBoardColumn(int boardId, int columnId, [FromBody] CreateBoardColumnDTO columnDTO)
     {
-        try
-        {
-            _boardService.CreateBoardColumn(boardIndex, columnDTO.Name);
-        }
-        catch
-        {
-            return BadRequest("Couldn't create board column with such parameters");
-        }
+        //try
+        //{
+        //    _boardService.CreateBoardColumn(boardId, columnId, columnDTO.Name);
+        //}
+        //catch
+        //{
+        //    return BadRequest("Couldn't create board column with such parameters");
+        //}
+        _boardService.CreateBoardColumn(boardId, columnId, columnDTO.Name);
 
         return Ok("Board column was successfully created");
     }
 
     // DELETE api/boards/{boardIndex}/column/{columnIndex}/remove
     [HttpDelete("{boardIndex}/column/{columnIndex}/remove")]
-    public IActionResult RemoveBoardColumn(int boardIndex, int columnIndex)
+    public IActionResult RemoveBoardColumn(uint id)
     {
         try
         {
-            _boardService.RemoveBoardColumn(boardIndex, columnIndex);
+            _boardService.RemoveBoardColumn(id);
         }
         catch
         {

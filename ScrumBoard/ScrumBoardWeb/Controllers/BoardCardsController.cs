@@ -18,12 +18,12 @@ public class BoardCardsController : ControllerBase
     public BoardCardsController(IBoardService boardService) => _boardService = boardService;
 
     // POST api/boards/{boardIndex}/column/{columnIndex}/create
-    [HttpPost("{boardIndex}/column/{columnIndex}/create")]
-    public IActionResult CreateBoardCard(int boardIndex, int columnIndex, [FromBody] BoardCardDTO cardDTO)
+    [HttpPost("{boardId}/column/{columnId}/create")]
+    public IActionResult CreateBoardCard(int id, int columnId, [FromBody] BoardCardDTO cardDTO)
     {
         try
         {
-            _boardService.CreateBoardCard(boardIndex, columnIndex, cardDTO.Name, cardDTO.Description, cardDTO.Priority);
+            _boardService.CreateBoardCard(id, columnId, cardDTO.Name, cardDTO.Description, cardDTO.Priority);
         }
         catch
         {
@@ -35,11 +35,11 @@ public class BoardCardsController : ControllerBase
 
     // DELETE api/boards/{boardIndex}/column/{columnIndex}/card/{cardIndex}/remove
     [HttpDelete("{boardIndex}/column/{columnIndex}/card/{cardIndex}/remove")]
-    public IActionResult RemoveBoardCard(int boardIndex, int columnIndex, int cardIndex)
+    public IActionResult RemoveBoardCard(uint id)
     {
         try
         {
-            _boardService.RemoveBoardCard(boardIndex, columnIndex, cardIndex);
+            _boardService.RemoveBoardCard(id);
         }
         catch
         {

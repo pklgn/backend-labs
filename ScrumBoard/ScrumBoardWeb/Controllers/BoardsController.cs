@@ -51,7 +51,7 @@ public class BoardsController : ControllerBase
     {
         try
         {
-            _boardService.CreateBoard(createBoardDTO.Title);
+            _boardService.CreateBoard(createBoardDTO.Id, createBoardDTO.Title);
         }
         catch
         {
