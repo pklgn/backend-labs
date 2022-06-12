@@ -4,6 +4,7 @@
 using ScrumBoard;
 using ScrumBoardAPI.DTO;
 using ScrumBoardWeb.DTO;
+using ScrumBoardInfrastructure.Models;
 
 namespace ScrumBoardWeb.Repository;
 
@@ -17,13 +18,11 @@ public interface IScrumBoardRepository
 
     public List<BoardDTO> GetBoardsDTO();
 
-    public List<Board> GetBoards();
+    public void CreateColumn(int boardId, CreateBoardColumnDTO column);
 
-    public void CreateColumn(int boardIndex, CreateBoardColumnDTO column);
+    public void RemoveColumn(uint columnId);
 
-    public void RemoveColumn(int boardIndex, int columnIndex);
+    public void AddCard(int id, int columnId, BoardCardDTO card);
 
-    public void AddCard(int boardIndex, int columnIndex, BoardCardDTO card);
-
-    public void RemoveCard(int boardIndex, int columnIndex, int cardIndex);
+    public void RemoveCard(uint cardId);
 }

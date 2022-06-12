@@ -1,5 +1,6 @@
 using ScrumBoardWeb.Repository;
 using ScrumBoardWeb.Services;
+using ScrumBoardInfrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddDbContext<ScrumBoardContext>();
 
 builder.Services.AddScoped<IScrumBoardRepository, ScrumBoardRepository>();
 builder.Services.AddScoped<IBoardService, BoardService>();

@@ -7,7 +7,7 @@ namespace ScrumBoardWeb.Services;
 
 public interface IBoardService
 {
-    public void CreateBoard(string title);
+    public void CreateBoard(int id, string title);
 
     public void RemoveBoard(int index);
 
@@ -15,11 +15,11 @@ public interface IBoardService
 
     public BoardDTO GetBoard(int index);
 
-    public void CreateBoardColumn(int boardIndex, string name);
+    public void CreateBoardColumn(int boardId, int columnId, string name);
 
-    public void RemoveBoardColumn(int boardIndex, int columnIndex);
+    public void RemoveBoardColumn(uint columnId);
 
-    public void CreateBoardCard(int boardIndex, int columnIndex, string name, string description, string priority);
+    public void CreateBoardCard(int id, int columnId, string name, string description, string priority);
 
-    public void RemoveBoardCard(int boardIndex, int columnIndex, int cardIndex);
+    public void RemoveBoardCard(uint cardId);
 }

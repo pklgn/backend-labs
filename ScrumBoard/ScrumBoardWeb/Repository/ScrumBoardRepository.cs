@@ -7,39 +7,38 @@ using ScrumBoard;
 using ScrumBoardAPI.DTO;
 using ScrumBoardWeb.DTO;
 using ScrumBoardWeb.Exception;
+using ScrumBoardInfrastructure;
+using Microsoft.EntityFrameworkCore;
+using ScrumBoardInfrastructure.Models;
 
 namespace ScrumBoardWeb.Repository;
 
 public class ScrumBoardRepository : IScrumBoardRepository
 {
-    private readonly IMemoryCache _memoryCache;
-    private const string _memoryCacheBoardKey = "boards";
+    private readonly ScrumBoardContext _dbContext;
 
-    public ScrumBoardRepository(IMemoryCache memoryCache) => _memoryCache = memoryCache;
+    public ScrumBoardRepository(ScrumBoardContext dbContext) => _dbContext = dbContext;
 
     public void CreateBoard(CreateBoardDTO boardDTO)
     {
-        List<Board> boards = GetBoards();
+        _dbContext.Boards.Add(new BoardModel(boardDTO.Id, boardDTO.Title));
 
-        boards.Add(new Board(boardDTO.Title));
-
-        _memoryCache.Set(_memoryCacheBoardKey, boards);
+        _dbContext.SaveChanges();
     }
 
-    public void RemoveBoard(int index)
+    public void RemoveBoard(int id)
     {
-        List<Board> boards = GetBoards();
-
         try
         {
-            boards.RemoveAt(index);
+            var board = _dbContext.Boards.First(x => x.BoardId == id);
+            _dbContext.Boards.Remove(board);
         }
         catch
         {
             throw new BoardIndexOutOfRangeException();
         }
 
-        _memoryCache.Set(_memoryCacheBoardKey, boards);
+        _dbContext.SaveChanges();
     }
 
     public BoardDTO GetBoardDTO(int index)
@@ -56,11 +55,13 @@ public class ScrumBoardRepository : IScrumBoardRepository
 
     public List<BoardDTO> GetBoardsDTO()
     {
-        List<Board>? boards = _memoryCache.Get<List<Board>>(_memoryCacheBoardKey);
+        List<BoardModel> boards = _dbContext.Boards.ToList();
+        List<BoardColumnModel> columns = _dbContext.BoardColumns.ToList();
+        List<BoardCardModel> cards = _dbContext.BoardCards.ToList();
 
         List<BoardDTO> boardsDTO = new List<BoardDTO>();
 
-        if (boards == null)
+        if (boards == null || boards.Count == 0)
         {
             return boardsDTO;
         }
@@ -68,9 +69,21 @@ public class ScrumBoardRepository : IScrumBoardRepository
         foreach (var board in boards)
         {
             List<BoardColumnDTO> boardColumnsDTO = new List<BoardColumnDTO>();
-            foreach (var column in board.GetBoardColumns())
+            foreach (var column in columns)
             {
-                boardColumnsDTO.Add(new BoardColumnDTO(column));
+                List<BoardCardDTO> columnCardsDTO = new List<BoardCardDTO>();
+                foreach (var card in cards)
+                {
+                    if (card.ColumnId == column.ColumnId)
+                    {
+                        columnCardsDTO.Add(new BoardCardDTO(card.Name, card.Description, BoardCard.GetPriorityTypeToString(card.Priority)));
+                    }
+                }
+                BoardColumnDTO currColumn = new BoardColumnDTO(column.Title, columnCardsDTO);
+                if (column.BoardId == board.BoardId)
+                {
+                    boardColumnsDTO.Add(currColumn);
+                }
             }
             boardsDTO.Add(new BoardDTO(board.Title, boardColumnsDTO));
         }
@@ -78,107 +91,47 @@ public class ScrumBoardRepository : IScrumBoardRepository
         return boardsDTO;
     }
 
-    public List<Board> GetBoards()
+    public void CreateColumn(int boardId, CreateBoardColumnDTO column)
     {
-        List<Board>? boards = _memoryCache.Get<List<Board>>(_memoryCacheBoardKey);
+        _dbContext.BoardColumns.Add(new BoardColumnModel(column.Id, boardId, column.Name));
 
-        if (boards == null)
-        {
-            return new List<Board>();
-        }
-
-        return boards;
+        _dbContext.SaveChanges();
     }
 
-    public void CreateColumn(int boardIndex, CreateBoardColumnDTO column)
+    public void RemoveColumn(uint columnId)
     {
-        List<Board> boards = GetBoards();
-
-        if (boards.Count == 0 || boardIndex < 0 || boardIndex >= boards.Count)
-        {
-            throw new BoardIndexOutOfRangeException();
-        }
-
-        boards[boardIndex].AppendColumn(new BoardColumn(column.Name));
-
-        _memoryCache.Set(_memoryCacheBoardKey, boards);
-    }
-
-    public void RemoveColumn(int boardIndex, int columnIndex)
-    {
-        List<Board> boards = GetBoards();
-
-        if (boards.Count == 0 || boardIndex < 0 || boardIndex >= boards.Count)
-        {
-            throw new BoardIndexOutOfRangeException();
-        }
-
-        Board board = boards[boardIndex];
-
-        List<BoardColumn> columns = board.GetBoardColumns();
-
-        if (columns.Count == 0 || boardIndex < 0 || boardIndex >= columns.Count)
-        {
-            throw new BoardColumnIndexOutOfRangeException();
-        }
-
-        columns.RemoveAt(columnIndex);
-
-        _memoryCache.Set(_memoryCacheBoardKey, boards);
-    }
-
-    public void AddCard(int boardIndex, int columnIndex, BoardCardDTO card)
-    {
-        List<Board> boards = GetBoards();
-
-        if (boards.Count == 0 || boardIndex < 0 || boardIndex >= boards.Count)
-        {
-            throw new BoardIndexOutOfRangeException();
-        }
-
-        Board board = boards[boardIndex];
-
-        List<BoardColumn> columns = board.GetBoardColumns();
-
-        if (columns.Count == 0 || boardIndex < 0 || boardIndex >= columns.Count)
-        {
-            throw new BoardColumnIndexOutOfRangeException();
-        }
-
-        columns[columnIndex].AppendCard(new BoardCard(card.Name, card.Description, BoardCard.GetPriorityTypeFromString(card.Priority)));
-
-        _memoryCache.Set(_memoryCacheBoardKey, boards);
-    }
-
-    public void RemoveCard(int boardIndex, int columnIndex, int cardIndex)
-    {
-        List<Board> boards = GetBoards();
-
-        if (boards.Count == 0 || boardIndex < 0 || boardIndex >= boards.Count)
-        {
-            throw new BoardIndexOutOfRangeException();
-        }
-
-        Board board = boards[boardIndex];
-
-        List<BoardColumn> columns = board.GetBoardColumns();
-
-        if (columns.Count == 0 || boardIndex < 0 || boardIndex >= columns.Count)
-        {
-            throw new BoardColumnIndexOutOfRangeException();
-        }
-
-        BoardColumn column = columns[columnIndex];
-
         try
         {
-            column.GetBoardCards().RemoveAt(cardIndex);
+            var column = _dbContext.BoardColumns.First(c => c.ColumnId == columnId);
+            _dbContext.Remove(column);
+        }
+        catch
+        {
+            throw new BoardColumnIndexOutOfRangeException();
+        }
+
+        _dbContext.SaveChanges();
+    }
+
+    public void AddCard(int id, int columnId, BoardCardDTO card)
+    {
+        _dbContext.BoardCards.Add(new BoardCardModel(id, columnId, card.Name, card.Description, BoardCard.GetPriorityTypeFromString(card.Priority)));
+
+        _dbContext.SaveChanges();
+    }
+
+    public void RemoveCard(uint cardId)
+    {
+        try
+        {
+            var card = _dbContext.BoardCards.First(x => x.CardId == cardId);
+            _dbContext.BoardCards.Remove(card);
         }
         catch
         {
             throw new BoardCardIndexOutOfRangeException();
         }
 
-        _memoryCache.Set(_memoryCacheBoardKey, boards);
+        _dbContext.SaveChanges();
     }
 }
