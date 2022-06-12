@@ -2,8 +2,8 @@
 {
     public class BoardCard
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
+        public string Name { get; protected set; }
+        public string Description { get; protected set; }
 
         public enum PriorityType
         {
@@ -14,7 +14,7 @@
             Major,
         }
 
-        public PriorityType Priority { get; private set; }
+        public PriorityType Priority { get; protected set; }
 
         public BoardCard(string name, string description = "", PriorityType priority = PriorityType.NoPriority)
         {

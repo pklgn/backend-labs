@@ -5,8 +5,8 @@ namespace ScrumBoard
 {
     public class BoardColumn
     {
-        private List<BoardCard> _cardList = new List<BoardCard>();
-        public string Title { get; private set; }
+        public List<BoardCard> _cardList = new List<BoardCard>();
+        public string Title { get; protected set; }
 
         public BoardColumn(string title)
         {

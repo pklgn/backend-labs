@@ -5,8 +5,8 @@ namespace ScrumBoard
     public class Board
     {
         public static readonly int MAX_COLUMN_AMOUNT = 10;
-        public string Title { get; private set; }
-        private List<BoardColumn> _columnList = new List<BoardColumn>();
+        public string Title { get; protected set; }
+        public List<BoardColumn> _columnList = new List<BoardColumn>();
 
         public Board(string title)
         {
