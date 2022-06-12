@@ -13,7 +13,7 @@ public interface IBoardService
 
     public List<BoardDTO> GetBoards();
 
-    public BoardDTO GetBoard(int index);
+    public BoardDTO GetBoard(int boardId);
 
     public void CreateBoardColumn(int boardId, int columnId, string name);
 

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using ScrumBoard;
-using ScrumBoardAPI.DTO;
 using ScrumBoardWeb.DTO;
 using ScrumBoardInfrastructure.Models;
 
@@ -14,7 +13,7 @@ public interface IScrumBoardRepository
 
     public void RemoveBoard(int index);
 
-    public BoardDTO GetBoardDTO(int index);
+    public BoardDTO GetBoardDTO(int boardId);
 
     public List<BoardDTO> GetBoardsDTO();
 
@@ -22,7 +21,7 @@ public interface IScrumBoardRepository
 
     public void RemoveColumn(uint columnId);
 
-    public void AddCard(int id, int columnId, BoardCardDTO card);
+    public void AddCard(int cardId, int columnId, BoardCardDTO card);
 
     public void RemoveCard(uint cardId);
 }

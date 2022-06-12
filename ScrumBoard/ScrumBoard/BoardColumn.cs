@@ -5,7 +5,7 @@ namespace ScrumBoard
 {
     public class BoardColumn
     {
-        public List<BoardCard> _cardList = new List<BoardCard>();
+        public List<BoardCard> CardList = new List<BoardCard>();
         public string Title { get; protected set; }
 
         public BoardColumn(string title)
@@ -15,15 +15,15 @@ namespace ScrumBoard
 
         public void AppendCard(BoardCard card)
         {
-            _cardList.Add(card);
+            CardList.Add(card);
         }   
 
         public bool RemoveCard(string cardName)
         {
-            BoardCard boardCard = _cardList.Find(card => card.Name == cardName);
+            BoardCard boardCard = CardList.Find(card => card.Name == cardName);
             if (boardCard != null)
             {
-                _cardList.Remove(boardCard);
+                CardList.Remove(boardCard);
 
                 return true;
             }
@@ -43,7 +43,7 @@ namespace ScrumBoard
 
         public List<BoardCard> GetBoardCards()
         {
-            return _cardList;
+            return CardList;
         }
     }
 }

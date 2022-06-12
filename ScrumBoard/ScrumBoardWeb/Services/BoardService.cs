@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using ScrumBoard;
-using ScrumBoardAPI.DTO;
 using ScrumBoardWeb.DTO;
 using ScrumBoardWeb.Repository;
 
@@ -35,9 +34,9 @@ public class BoardService : IBoardService
         return _repository.GetBoardsDTO();
     }
 
-    public BoardDTO GetBoard(int index)
+    public BoardDTO GetBoard(int boardId)
     {
-        return _repository.GetBoardDTO(index);
+        return _repository.GetBoardDTO(boardId);
     }
 
     public void CreateBoardCard(int id, int columnId, string name, string description, string priority)

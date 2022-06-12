@@ -6,7 +6,7 @@ namespace ScrumBoard
     {
         public static readonly int MAX_COLUMN_AMOUNT = 10;
         public string Title { get; protected set; }
-        public List<BoardColumn> _columnList = new List<BoardColumn>();
+        public List<BoardColumn> ColumnList = new List<BoardColumn>();
 
         public Board(string title)
         {
@@ -15,9 +15,9 @@ namespace ScrumBoard
 
         public bool AppendColumn(BoardColumn column)
         {
-            if (_columnList.Count < MAX_COLUMN_AMOUNT)
+            if (ColumnList.Count < MAX_COLUMN_AMOUNT)
             {
-                _columnList.Add(column);
+                ColumnList.Add(column);
 
                 return true;
             }
@@ -32,31 +32,31 @@ namespace ScrumBoard
                 return false;
             }
 
-            BoardColumn tempColumn = _columnList[oldIndex];
+            BoardColumn tempColumn = ColumnList[oldIndex];
 
-            _columnList.RemoveAt(oldIndex);
-            _columnList.Insert(newIndex, tempColumn);
+            ColumnList.RemoveAt(oldIndex);
+            ColumnList.Insert(newIndex, tempColumn);
 
             return true;
         }
         
         public bool RemoveColumn(string columnTitle)
         {
-            int columnIndex = _columnList.FindIndex(column => column.Title == columnTitle);
+            int columnIndex = ColumnList.FindIndex(column => column.Title == columnTitle);
 
             if (columnIndex == -1)
             {
                 return false;
             }
 
-            _columnList.RemoveAt(columnIndex);
+            ColumnList.RemoveAt(columnIndex);
 
             return true;
         }
 
         private bool IsReachable(int index)
         {
-            if (index < 0 || index >= _columnList.Count)
+            if (index < 0 || index >= ColumnList.Count)
             {
                 return false;
             }
@@ -66,14 +66,14 @@ namespace ScrumBoard
 
         public bool RenameColumn(string currName, string newName)
         {
-            BoardColumn selectedColumn = _columnList.Find(column => column.Title == currName);
+            BoardColumn selectedColumn = ColumnList.Find(column => column.Title == currName);
 
             if  (selectedColumn == null)
             {
                 return false;
             }
 
-            int newColumnNameIndex = _columnList.FindIndex(column => column.Title == newName);
+            int newColumnNameIndex = ColumnList.FindIndex(column => column.Title == newName);
             if (newColumnNameIndex != -1)
             {
                 return false;
@@ -86,16 +86,16 @@ namespace ScrumBoard
 
         public List<BoardColumn> GetBoardColumns()
         {
-            return _columnList;
+            return ColumnList;
         }
 
         public bool AppendCardToColumn(BoardCard card, string columnTitle = "")
         {
             if (columnTitle == "")
             {
-                if (_columnList.Count > 0)
+                if (ColumnList.Count > 0)
                 {
-                    _columnList[0].AppendCard(card);
+                    ColumnList[0].AppendCard(card);
 
                     return true;
                 }
@@ -103,20 +103,20 @@ namespace ScrumBoard
                 return false;
             }
 
-            int columnIndex = _columnList.FindIndex(column => column.Title == columnTitle);
+            int columnIndex = ColumnList.FindIndex(column => column.Title == columnTitle);
             if (columnIndex == -1)
             {
                 return false;
             }
 
-            _columnList[columnIndex].AppendCard(card);
+            ColumnList[columnIndex].AppendCard(card);
 
             return true;
         }
 
         public BoardColumn? FindBoardColumn(string title)
         {
-            return _columnList.Find(column => column.Title == title);
+            return ColumnList.Find(column => column.Title == title);
         }
 
         public BoardCard? FindBoardCard(string columnTitle, string cardTitle)

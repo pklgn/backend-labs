@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Mvc;
-using ScrumBoardAPI.DTO;
 using ScrumBoardWeb.DTO;
 using ScrumBoardWeb.Services;
 
@@ -29,13 +28,13 @@ public class BoardsController : ControllerBase
     }
 
     // GET api/boards/boardIndex
-    [HttpGet("{boardIndex}")]
-    public IActionResult GetBoard(int index)
+    [HttpGet("{boardId}")]
+    public IActionResult GetBoard(int boardId)
     {
         BoardDTO board;
         try
         {
-            board = _boardService.GetBoard(index);
+            board = _boardService.GetBoard(boardId);
         }
         catch
         {
