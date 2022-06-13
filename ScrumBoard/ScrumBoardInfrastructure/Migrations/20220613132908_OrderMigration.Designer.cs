@@ -10,8 +10,8 @@ using ScrumBoardInfrastructure;
 namespace ScrumBoardInfrastructure.Migrations
 {
     [DbContext(typeof(ScrumBoardContext))]
-    [Migration("20220612151838_CardKeyMigration")]
-    partial class CardKeyMigration
+    [Migration("20220613132908_OrderMigration")]
+    partial class OrderMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,7 +67,8 @@ namespace ScrumBoardInfrastructure.Migrations
                 {
                     b.Property<int>("BoardId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Title")
                         .IsRequired()

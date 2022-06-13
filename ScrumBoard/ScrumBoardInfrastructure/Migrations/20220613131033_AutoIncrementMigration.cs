@@ -5,10 +5,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ScrumBoardInfrastructure.Migrations
 {
-    public partial class IdMigration : Migration
+    public partial class AutoIncrementMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_BoardColumns",
+                table: "BoardColumns");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_BoardCards",
                 table: "BoardCards");
@@ -21,12 +25,29 @@ namespace ScrumBoardInfrastructure.Migrations
             migrationBuilder.RenameColumn(
                 name: "Id",
                 table: "BoardColumns",
-                newName: "ColumnId");
+                newName: "BoardId");
 
             migrationBuilder.RenameColumn(
                 name: "Id",
                 table: "BoardCards",
                 newName: "ColumnId");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "BoardId",
+                table: "BoardColumns",
+                type: "int",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "int")
+                .OldAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+            migrationBuilder.AddColumn<int>(
+                name: "ColumnId",
+                table: "BoardColumns",
+                type: "int",
+                nullable: false,
+                defaultValue: 0)
+                .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
             migrationBuilder.AlterColumn<int>(
                 name: "ColumnId",
@@ -46,6 +67,11 @@ namespace ScrumBoardInfrastructure.Migrations
                 .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
             migrationBuilder.AddPrimaryKey(
+                name: "PK_BoardColumns",
+                table: "BoardColumns",
+                column: "ColumnId");
+
+            migrationBuilder.AddPrimaryKey(
                 name: "PK_BoardCards",
                 table: "BoardCards",
                 column: "CardId");
@@ -54,8 +80,16 @@ namespace ScrumBoardInfrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropPrimaryKey(
+                name: "PK_BoardColumns",
+                table: "BoardColumns");
+
+            migrationBuilder.DropPrimaryKey(
                 name: "PK_BoardCards",
                 table: "BoardCards");
+
+            migrationBuilder.DropColumn(
+                name: "ColumnId",
+                table: "BoardColumns");
 
             migrationBuilder.DropColumn(
                 name: "CardId",
@@ -67,7 +101,7 @@ namespace ScrumBoardInfrastructure.Migrations
                 newName: "Id");
 
             migrationBuilder.RenameColumn(
-                name: "ColumnId",
+                name: "BoardId",
                 table: "BoardColumns",
                 newName: "Id");
 
@@ -78,12 +112,26 @@ namespace ScrumBoardInfrastructure.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "Id",
+                table: "BoardColumns",
+                type: "int",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "int")
+                .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
                 table: "BoardCards",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "int")
                 .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_BoardColumns",
+                table: "BoardColumns",
+                column: "Id");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_BoardCards",

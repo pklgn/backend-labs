@@ -65,7 +65,8 @@ namespace ScrumBoardInfrastructure.Migrations
                 {
                     b.Property<int>("BoardId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Title")
                         .IsRequired()

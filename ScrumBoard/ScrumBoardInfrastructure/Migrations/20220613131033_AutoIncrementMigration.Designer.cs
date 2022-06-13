@@ -10,8 +10,8 @@ using ScrumBoardInfrastructure;
 namespace ScrumBoardInfrastructure.Migrations
 {
     [DbContext(typeof(ScrumBoardContext))]
-    [Migration("20220612140607_ColumnMigration")]
-    partial class ColumnMigration
+    [Migration("20220613131033_AutoIncrementMigration")]
+    partial class AutoIncrementMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,8 +22,11 @@ namespace ScrumBoardInfrastructure.Migrations
 
             modelBuilder.Entity("ScrumBoardInfrastructure.Models.BoardCardModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CardId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ColumnId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -37,14 +40,14 @@ namespace ScrumBoardInfrastructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("CardId");
 
                     b.ToTable("BoardCards");
                 });
 
             modelBuilder.Entity("ScrumBoardInfrastructure.Models.BoardColumnModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ColumnId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -55,14 +58,14 @@ namespace ScrumBoardInfrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("ColumnId");
 
                     b.ToTable("BoardColumns");
                 });
 
             modelBuilder.Entity("ScrumBoardInfrastructure.Models.BoardModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BoardId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -70,7 +73,7 @@ namespace ScrumBoardInfrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("BoardId");
 
                     b.ToTable("Boards");
                 });
