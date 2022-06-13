@@ -1,5 +1,6 @@
 ﻿using ScrumBoard;
 
+
 namespace ScrumBoardWeb.DTO;
 
 public class BoardColumnDTO

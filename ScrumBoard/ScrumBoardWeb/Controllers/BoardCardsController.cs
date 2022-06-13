@@ -33,13 +33,13 @@ public class BoardCardsController : ControllerBase
         return Ok("Board card was successfully created");
     }
 
-    // DELETE api/boards/{boardIndex}/column/{columnIndex}/card/{cardIndex}/remove
-    [HttpDelete("{boardIndex}/column/{columnIndex}/card/{cardIndex}/remove")]
-    public IActionResult RemoveBoardCard(uint id)
+    // DELETE api/boards/{boardId}/column/{columnId}/card/{cardId}/remove
+    [HttpDelete("{boardId}/column/{columnId}/card/{cardId}/remove")]
+    public IActionResult RemoveBoardCard(int cardId)
     {
         try
         {
-            _boardService.RemoveBoardCard(id);
+            _boardService.RemoveBoardCard(cardId);
         }
         catch
         {

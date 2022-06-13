@@ -3,6 +3,7 @@
 
 using ScrumBoardWeb.DTO;
 
+
 namespace ScrumBoardWeb.Services;
 
 public interface IBoardService
@@ -21,5 +22,5 @@ public interface IBoardService
 
     public void CreateBoardCard(int columnId, string name, string description, string priority);
 
-    public void RemoveBoardCard(uint cardId);
+    public void RemoveBoardCard(int cardId);
 }

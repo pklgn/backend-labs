@@ -7,6 +7,7 @@ using ScrumBoardWeb.Exceptions;
 using ScrumBoardInfrastructure;
 using ScrumBoardInfrastructure.Models;
 
+
 namespace ScrumBoardWeb.Repository;
 
 public class ScrumBoardRepository : IScrumBoardRepository
@@ -130,7 +131,7 @@ public class ScrumBoardRepository : IScrumBoardRepository
         _dbContext.SaveChanges();
     }
 
-    public void RemoveCard(uint cardId)
+    public void RemoveCard(int cardId)
     {
         var card = _dbContext.BoardCards.First(x => x.CardId == cardId);
 

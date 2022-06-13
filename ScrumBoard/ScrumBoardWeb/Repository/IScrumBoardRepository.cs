@@ -1,9 +1,8 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using ScrumBoard;
 using ScrumBoardWeb.DTO;
-using ScrumBoardInfrastructure.Models;
+
 
 namespace ScrumBoardWeb.Repository;
 
@@ -23,5 +22,5 @@ public interface IScrumBoardRepository
 
     public void AddCard(int columnId, string name, string description, string priority);
 
-    public void RemoveCard(uint cardId);
+    public void RemoveCard(int cardId);
 }

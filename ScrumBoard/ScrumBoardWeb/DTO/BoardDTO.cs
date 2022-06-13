@@ -3,7 +3,6 @@
 
 namespace ScrumBoardWeb.DTO;
 
-
 public class BoardDTO
 {
     public string Title { get; }

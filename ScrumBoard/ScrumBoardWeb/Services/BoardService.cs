@@ -1,9 +1,9 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using ScrumBoard;
 using ScrumBoardWeb.DTO;
 using ScrumBoardWeb.Repository;
+
 
 namespace ScrumBoardWeb.Services;
 
@@ -15,7 +15,6 @@ public class BoardService : IBoardService
 
     public void CreateBoard(string title)
     {
-        //CreateBoardDTO board = new CreateBoardDTO(title);
 
         _repository.CreateBoard(title);
 
@@ -46,7 +45,7 @@ public class BoardService : IBoardService
         return;
     }
 
-    public void RemoveBoardCard(uint cardId)
+    public void RemoveBoardCard(int cardId)
     {
         _repository.RemoveCard(cardId);
 
