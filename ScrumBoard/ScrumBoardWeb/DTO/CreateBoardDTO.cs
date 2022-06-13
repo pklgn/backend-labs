@@ -5,12 +5,12 @@ namespace ScrumBoardWeb.DTO;
 
 public class CreateBoardDTO
 {
-    public int Id { get; set; }
-    public string Title { get; }
+    //public int Id { get; set; }
+    public string Title { get; set; }
 
-    public CreateBoardDTO(int id, string title)
+    public CreateBoardDTO(string title)
     {
-        Id = id;
+        //Id = id;
         Title = title;
     }
 }

@@ -13,18 +13,18 @@ public class BoardService : IBoardService
 
     public BoardService(IScrumBoardRepository repository) => _repository = repository;
 
-    public void CreateBoard(int id, string title)
+    public void CreateBoard(string title)
     {
-        CreateBoardDTO board = new CreateBoardDTO(id, title);
+        //CreateBoardDTO board = new CreateBoardDTO(title);
 
-        _repository.CreateBoard(board);
+        _repository.CreateBoard(title);
 
         return;
     }
 
-    public void RemoveBoard(int index)
+    public void RemoveBoard(int boardId)
     {
-        _repository.RemoveBoard(index);
+        _repository.RemoveBoard(boardId);
 
         return;
     }
@@ -39,11 +39,9 @@ public class BoardService : IBoardService
         return _repository.GetBoardDTO(boardId);
     }
 
-    public void CreateBoardCard(int id, int columnId, string name, string description, string priority)
+    public void CreateBoardCard(int columnId, string name, string description, string priority)
     {
-        BoardCardDTO card = new BoardCardDTO(name, description, priority);
-        
-        _repository.AddCard(id, columnId, card);
+        _repository.AddCard(columnId, name, description, priority);
 
         return;
     }
@@ -55,16 +53,14 @@ public class BoardService : IBoardService
         return;
     }
 
-    public void CreateBoardColumn(int boardId, int columnId, string name)
+    public void CreateBoardColumn(int boardId, string columnTitle)
     {
-        CreateBoardColumnDTO column = new CreateBoardColumnDTO(columnId, name);
-
-        _repository.CreateColumn(boardId, column);
+        _repository.CreateColumn(boardId, columnTitle);
 
         return;
     }
 
-    public void RemoveBoardColumn(uint columnId)
+    public void RemoveBoardColumn(int columnId)
     {
         _repository.RemoveColumn(columnId);
 

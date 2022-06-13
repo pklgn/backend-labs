@@ -9,19 +9,19 @@ namespace ScrumBoardWeb.Repository;
 
 public interface IScrumBoardRepository
 {
-    public void CreateBoard(CreateBoardDTO boardDTO);
+    public void CreateBoard(string title);
 
-    public void RemoveBoard(int index);
+    public void RemoveBoard(int boardId);
 
     public BoardDTO GetBoardDTO(int boardId);
 
     public List<BoardDTO> GetBoardsDTO();
 
-    public void CreateColumn(int boardId, CreateBoardColumnDTO column);
+    public void CreateColumn(int boardId, string columnTitle);
 
-    public void RemoveColumn(uint columnId);
+    public void RemoveColumn(int columnId);
 
-    public void AddCard(int cardId, int columnId, BoardCardDTO card);
+    public void AddCard(int columnId, string name, string description, string priority);
 
     public void RemoveCard(uint cardId);
 }

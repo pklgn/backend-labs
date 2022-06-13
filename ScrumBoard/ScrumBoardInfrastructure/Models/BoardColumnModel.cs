@@ -4,19 +4,21 @@
 using System.Collections.Generic;
 using ScrumBoard;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace ScrumBoardInfrastructure.Models;
 
 public class BoardColumnModel : BoardColumn
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ColumnId { get; set; }
     
     public int BoardId { get; set; }
 
-    public BoardColumnModel(int columnId, int boardId, string title) : base(title)
+    public BoardColumnModel(int boardId, string title) : base(title)
     {
-        ColumnId = columnId;
         BoardId = boardId;
     }
 }

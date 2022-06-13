@@ -5,7 +5,6 @@ using ScrumBoard;
 using ScrumBoardWeb.DTO;
 using ScrumBoardWeb.Exceptions;
 using ScrumBoardInfrastructure;
-using Microsoft.EntityFrameworkCore;
 using ScrumBoardInfrastructure.Models;
 
 namespace ScrumBoardWeb.Repository;
@@ -16,11 +15,11 @@ public class ScrumBoardRepository : IScrumBoardRepository
 
     public ScrumBoardRepository(ScrumBoardContext dbContext) => _dbContext = dbContext;
 
-    public void CreateBoard(CreateBoardDTO boardDTO)
+    public void CreateBoard(string title)
     {
         try
         {
-            _dbContext.Boards.Add(new BoardModel(boardDTO.Id, boardDTO.Title));
+            _dbContext.Boards.Add(new BoardModel(title));
         }
         catch
         {
@@ -64,7 +63,7 @@ public class ScrumBoardRepository : IScrumBoardRepository
 
         List<BoardDTO> boardsDTO = new List<BoardDTO>();
 
-        if (boards == null || boards.Count == 0)
+        if (boards.Count == 0)
         {
             return boardsDTO;
         }
@@ -94,14 +93,14 @@ public class ScrumBoardRepository : IScrumBoardRepository
         return boardsDTO;
     }
 
-    public void CreateColumn(int boardId, CreateBoardColumnDTO column)
+    public void CreateColumn(int boardId, string columnTitle)
     {
-        _dbContext.BoardColumns.Add(new BoardColumnModel(column.Id, boardId, column.Name));
+        _dbContext.BoardColumns.Add(new BoardColumnModel(boardId, columnTitle));
 
         _dbContext.SaveChanges();
     }
 
-    public void RemoveColumn(uint columnId)
+    public void RemoveColumn(int columnId)
     {
         var column = _dbContext.BoardColumns.First(c => c.ColumnId == columnId);
 
@@ -117,11 +116,11 @@ public class ScrumBoardRepository : IScrumBoardRepository
         _dbContext.SaveChanges();
     }
 
-    public void AddCard(int id, int columnId, BoardCardDTO card)
+    public void AddCard(int columnId, string name, string description, string priority)
     {
         try
         {
-            _dbContext.BoardCards.Add(new BoardCardModel(id, columnId, card.Name, card.Description, BoardCard.GetPriorityTypeFromString(card.Priority)));
+            _dbContext.BoardCards.Add(new BoardCardModel(columnId, name, description, BoardCard.GetPriorityTypeFromString(priority)));
         }
         catch
         {

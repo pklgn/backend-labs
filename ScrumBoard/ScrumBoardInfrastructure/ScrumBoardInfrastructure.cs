@@ -26,8 +26,5 @@ public class ScrumBoardContext : DbContext
         modelBuilder.Ignore<Board>();
         modelBuilder.Ignore<BoardColumn>();
         modelBuilder.Ignore<BoardCard>();
-
-        modelBuilder.Entity<BoardCardModel>().HasKey(c => c.CardId);
-
     }
 }

@@ -17,13 +17,13 @@ public class BoardCardsController : ControllerBase
 
     public BoardCardsController(IBoardService boardService) => _boardService = boardService;
 
-    // POST api/boards/{boardIndex}/column/{columnIndex}/create
+    // POST api/boards/{boardId}/column/{columnId}/create
     [HttpPost("{boardId}/column/{columnId}/create")]
-    public IActionResult CreateBoardCard(int id, int columnId, [FromBody] BoardCardDTO cardDTO)
+    public IActionResult CreateBoardCard(int columnId, [FromBody] BoardCardDTO cardDTO)
     {
         try
         {
-            _boardService.CreateBoardCard(id, columnId, cardDTO.Name, cardDTO.Description, cardDTO.Priority);
+            _boardService.CreateBoardCard(columnId, cardDTO.Name, cardDTO.Description, cardDTO.Priority);
         }
         catch
         {

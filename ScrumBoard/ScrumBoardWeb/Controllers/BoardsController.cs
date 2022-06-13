@@ -27,7 +27,7 @@ public class BoardsController : ControllerBase
         return Ok(boards);
     }
 
-    // GET api/boards/boardIndex
+    // GET api/boards/boardId
     [HttpGet("{boardId}")]
     public IActionResult GetBoard(int boardId)
     {
@@ -38,7 +38,7 @@ public class BoardsController : ControllerBase
         }
         catch
         {
-            return BadRequest("Request is incorrect. Check your index value");
+            return BadRequest("Request is incorrect. Check your id value");
         }
 
         return Ok(board);
@@ -50,7 +50,7 @@ public class BoardsController : ControllerBase
     {
         try
         {
-            _boardService.CreateBoard(createBoardDTO.Id, createBoardDTO.Title);
+            _boardService.CreateBoard(createBoardDTO.Title);
         }
         catch
         {
@@ -60,13 +60,13 @@ public class BoardsController : ControllerBase
         return Ok("Board was successfully created");
     }
 
-    // DELETE api/boards/{boardIndex}/remove
-    [HttpDelete("{boardIndex}/remove")]
-    public IActionResult RemoveBoard(int boardIndex)
+    // DELETE api/boards/{boardId}/remove
+    [HttpDelete("{boardId}/remove")]
+    public IActionResult RemoveBoard(int boardId)
     {
         try
         {
-            _boardService.RemoveBoard(boardIndex);
+            _boardService.RemoveBoard(boardId);
         }
         catch
         {
